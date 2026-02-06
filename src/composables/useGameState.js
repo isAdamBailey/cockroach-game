@@ -93,7 +93,7 @@ export function useGameState() {
         state.highScore = state.score
         localStorage.setItem('cockroach_high_score', String(state.score))
       }
-    }, 1800)
+    }, 3000)
   }
 
   return {

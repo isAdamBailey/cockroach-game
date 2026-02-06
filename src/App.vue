@@ -49,8 +49,8 @@ watch(() => state.showFart, (isFarting) => {
   }
 })
 
-function handlePlay() {
-  initAudio()
+async function handlePlay() {
+  await initAudio()
   startGame()
   try { gtagEvent('game_start') } catch {}
 }
