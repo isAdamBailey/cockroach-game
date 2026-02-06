@@ -1,5 +1,5 @@
 <template>
-  <div class="hiss-effect">HISS!</div>
+  <div class="hiss-effect">{{ $t('game.hiss') }}</div>
 </template>
 
 <style scoped>
@@ -17,7 +17,7 @@
     1px 1px 0 #333,
     0 0 8px rgba(255, 200, 0, 0.6);
   pointer-events: none;
-  animation: hissPop 0.4s ease-out forwards;
+  animation: hissPop 0.85s ease-out forwards;
   z-index: 30;
   white-space: nowrap;
 }

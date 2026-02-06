@@ -1,6 +1,6 @@
 <template>
   <div class="game-board" @pointerdown="handleBoardTap">
-    <ScoreDisplay :score="state.score" :combo-count="state.comboCount" />
+    <ScoreDisplay :score="state.score" :combo-count="state.comboCount" :hiss-count="state.hissCount" />
     <Toilet />
     <CockroachSprite
       :x="state.cockroachX"
@@ -9,18 +9,19 @@
       @head-tap="handleHiss"
     />
     <FartCloud :visible="state.showFart" />
-    <div class="tap-hint" v-if="state.hissCount === 0">
-      <span class="hint-arrow">&#x1F449;</span> Tap the head!
+    <div class="tap-hint" v-if="state.hissCount === 0"
+      :style="{ left: state.cockroachX + '%', top: (state.cockroachY - 12) + '%' }">
+      {{ $t('game.tapTheHead') }} <span class="hint-arrow">&#x1F447;</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import CockroachSprite from './CockroachSprite.vue'
-import Toilet from './Toilet.vue'
-import FartCloud from './FartCloud.vue'
-import ScoreDisplay from './ScoreDisplay.vue'
-import { useSound } from '../composables/useSound.js'
+import CockroachSprite from '@/components/CockroachSprite.vue'
+import Toilet from '@/components/Toilet.vue'
+import FartCloud from '@/components/FartCloud.vue'
+import ScoreDisplay from '@/components/ScoreDisplay.vue'
+import { useSound } from '@/composables/useSound.js'
 
 const props = defineProps({
   state: { type: Object, required: true },
@@ -28,14 +29,11 @@ const props = defineProps({
 
 const emit = defineEmits(['hiss'])
 
-const { playHiss, playFart } = useSound()
+const { playHiss } = useSound()
 
 function handleHiss() {
   emit('hiss')
   playHiss()
-  if (props.state.cockroachX >= 82) {
-    setTimeout(() => playFart(), 300)
-  }
 }
 
 function handleBoardTap() {
@@ -57,29 +55,29 @@ function handleBoardTap() {
 
 .tap-hint {
   position: absolute;
-  top: 50%;
-  left: 22%;
-  transform: translateY(-50%);
+  transform: translate(-50%, 0);
   font-size: 3vmin;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
   animation: hintBounce 1.2s ease-in-out infinite;
   pointer-events: none;
   white-space: nowrap;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  z-index: 40;
 }
 
 .hint-arrow {
   display: inline-block;
-  animation: hintPoint 1.2s ease-in-out infinite;
+  animation: hintBob 0.8s ease-in-out infinite;
 }
 
 @keyframes hintBounce {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
-@keyframes hintPoint {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(8px); }
+@keyframes hintBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 </style>

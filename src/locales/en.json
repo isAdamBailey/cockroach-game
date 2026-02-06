@@ -1,0 +1,38 @@
+{
+  "game": {
+    "title": "Cockroach Hiss!",
+    "subtitle": "Tap the cockroach's head to make it hiss!",
+    "play": "Play",
+    "playAgain": "Play Again",
+    "howToPlay": "How to Play",
+    "stop": "Stop",
+    "tapTheHead": "Tap the head!",
+    "hiss": "HISSSSS!",
+    "youWin": "You Win!",
+    "newHighScore": "New High Score!",
+    "score": "{score}",
+    "highScore": "High Score: {score}",
+    "combo": "{count}x Combo!",
+    "hisses": "{count}",
+    "scoreLabel": "SCORE",
+    "hissesLabel": "HISSES"
+  },
+  "facts": {
+    "label": "Fun Fact:",
+    "list": [
+      "Madagascar hissing cockroaches can live up to 5 years!",
+      "They hiss by pushing air through breathing holes called spiracles.",
+      "Males have large horns on their thorax for fighting rivals.",
+      "They are one of the largest cockroach species — up to 3 inches long!",
+      "Unlike most cockroaches, they have no wings at all.",
+      "They can climb smooth glass with special pads on their feet.",
+      "A group of hissing cockroaches is sometimes called an \"intrusion.\"",
+      "Baby hissing cockroaches are called nymphs and are bright white at birth.",
+      "They are completely harmless to humans — no biting or stinging!",
+      "Males hiss to attract mates and scare off other males."
+    ]
+  },
+  "rules": {
+    "speech": "Welcome to Cockroach Hiss! Here is how to play. You see a big Madagascar hissing cockroach on the screen. Tap the cockroach's head to make it hiss. Each hiss moves the cockroach a little bit toward the toilet on the other side of the screen. Every hiss earns you 10 points. If you tap quickly, you get combo bonus points! Keep tapping the head until the cockroach reaches the toilet. When it gets there, it will let out a big fart and you win the game! Try to win with as few taps as possible to get 3 stars. Good luck!"
+  }
+}

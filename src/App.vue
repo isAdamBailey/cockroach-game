@@ -21,16 +21,33 @@
 </template>
 
 <script setup>
+import { watch } from 'vue'
 import { event as gtagEvent } from 'vue-gtag'
 
-import StartScreen from './components/StartScreen.vue'
-import GameBoard from './components/GameBoard.vue'
-import WinScreen from './components/WinScreen.vue'
-import { useGameState } from './composables/useGameState.js'
-import { useSound } from './composables/useSound.js'
+import StartScreen from '@/components/StartScreen.vue'
+import GameBoard from '@/components/GameBoard.vue'
+import WinScreen from '@/components/WinScreen.vue'
+import { useGameState } from '@/composables/useGameState.js'
+import { useSound } from '@/composables/useSound.js'
 
 const { state, stars, currentFact, startGame, hiss } = useGameState()
-const { initAudio, playVictory } = useSound()
+const { initAudio, playFart, playVictory } = useSound()
+
+watch(() => state.showFart, (isFarting) => {
+  if (isFarting) {
+    playFart()
+    setTimeout(() => {
+      playVictory()
+      try {
+        gtagEvent('game_win', {
+          score: state.score,
+          hiss_count: state.hissCount,
+          stars: stars.value,
+        })
+      } catch {}
+    }, 1500)
+  }
+})
 
 function handlePlay() {
   initAudio()
@@ -42,18 +59,6 @@ function handleHiss() {
   const didHiss = hiss()
   if (didHiss) {
     try { gtagEvent('cockroach_hiss', { combo: state.comboCount }) } catch {}
-    if (state.phase === 'playing' && state.cockroachX >= 82) {
-      setTimeout(() => {
-        playVictory()
-        try {
-          gtagEvent('game_win', {
-            score: state.score,
-            hiss_count: state.hissCount,
-            stars: stars.value,
-          })
-        } catch {}
-      }, 1800)
-    }
   }
 }
 </script>

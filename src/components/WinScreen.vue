@@ -1,20 +1,20 @@
 <template>
   <div class="win-screen">
     <div class="win-content">
-      <h1 class="win-title">You Win!</h1>
+      <h1 class="win-title">{{ $t('game.youWin') }}</h1>
       <div class="stars-row">
         <span v-for="i in 3" :key="i" class="star" :class="{ filled: i <= stars }">
           &#9733;
         </span>
       </div>
-      <div class="final-score">Score: {{ score }}</div>
-      <div v-if="isNewHigh" class="new-high">New High Score!</div>
+      <div class="final-score">{{ $t('game.score', { score }) }}</div>
+      <div v-if="isNewHigh" class="new-high">{{ $t('game.newHighScore') }}</div>
       <div class="fun-fact">
-        <span class="fact-label">Fun Fact:</span>
+        <span class="fact-label">{{ $t('facts.label') }}</span>
         {{ fact }}
       </div>
       <button class="play-again-btn" @pointerdown.prevent="$emit('play-again')">
-        Play Again
+        {{ $t('game.playAgain') }}
       </button>
     </div>
   </div>

@@ -1,4 +1,5 @@
 import { reactive, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const POINTS_PER_HISS = 10
 const COMBO_BONUS = 5
@@ -6,30 +7,19 @@ const COMBO_WINDOW_MS = 1000
 const MOVE_X_MIN = 4
 const MOVE_X_MAX = 10
 const MOVE_Y_RANGE = 8
-const WIN_THRESHOLD_PERCENT = 82
-
-const cockroachFacts = [
-  'Madagascar hissing cockroaches can live up to 5 years!',
-  'They hiss by pushing air through breathing holes called spiracles.',
-  'Males have large horns on their thorax for fighting rivals.',
-  'They are one of the largest cockroach species — up to 3 inches long!',
-  'Unlike most cockroaches, they have no wings at all.',
-  'They can climb smooth glass with special pads on their feet.',
-  'A group of hissing cockroaches is sometimes called an "intrusion."',
-  'Baby hissing cockroaches are called nymphs and are bright white at birth.',
-  'They are completely harmless to humans — no biting or stinging!',
-  'Males hiss to attract mates and scare off other males.',
-]
+const WIN_THRESHOLD_PERCENT = 75
 
 export function useGameState() {
+  const { tm } = useI18n()
+
   const state = reactive({
     phase: 'start',
     score: 0,
     hissCount: 0,
     comboCount: 0,
     lastHissTime: 0,
-    cockroachX: 5,
-    cockroachY: 40,
+    cockroachX: 15,
+    cockroachY: 45,
     isHissing: false,
     showFart: false,
     highScore: parseInt(localStorage.getItem('cockroach_high_score') || '0', 10),
@@ -42,8 +32,9 @@ export function useGameState() {
   })
 
   const currentFact = computed(() => {
-    const idx = Math.floor(Math.random() * cockroachFacts.length)
-    return cockroachFacts[idx]
+    const facts = tm('facts.list')
+    const idx = Math.floor(Math.random() * facts.length)
+    return facts[idx]
   })
 
   function startGame() {
@@ -52,8 +43,8 @@ export function useGameState() {
     state.hissCount = 0
     state.comboCount = 0
     state.lastHissTime = 0
-    state.cockroachX = 5
-    state.cockroachY = 40
+    state.cockroachX = 15
+    state.cockroachY = 45
     state.isHissing = false
     state.showFart = false
   }
@@ -77,13 +68,13 @@ export function useGameState() {
 
     const dx = MOVE_X_MIN + Math.random() * (MOVE_X_MAX - MOVE_X_MIN)
     const dy = (Math.random() - 0.5) * MOVE_Y_RANGE
-    state.cockroachX = Math.min(state.cockroachX + dx, 95)
-    state.cockroachY = Math.max(5, Math.min(85, state.cockroachY + dy))
+    state.cockroachX = Math.min(state.cockroachX + dx, 85)
+    state.cockroachY = Math.max(15, Math.min(80, state.cockroachY + dy))
 
     state.isHissing = true
     setTimeout(() => {
       state.isHissing = false
-    }, 400)
+    }, 900)
 
     if (state.cockroachX >= WIN_THRESHOLD_PERCENT) {
       setTimeout(() => {

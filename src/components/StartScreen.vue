@@ -1,29 +1,55 @@
 <template>
   <div class="start-screen">
     <div class="start-content">
-      <h1 class="game-title">Cockroach Hiss!</h1>
-      <p class="subtitle">Tap the cockroach's head to make it hiss!</p>
+      <h1 class="game-title">{{ $t('game.title') }}</h1>
+      <p class="subtitle">{{ $t('game.subtitle') }}</p>
       <div class="fun-fact">
-        <span class="fact-label">Fun Fact:</span>
+        <span class="fact-label">{{ $t('facts.label') }}</span>
         {{ fact }}
       </div>
-      <button class="play-btn" @pointerdown.prevent="$emit('play')">
-        Play
-      </button>
+      <div class="btn-row">
+        <button class="rules-btn" @pointerdown.prevent="speakRules" :class="{ speaking: isSpeaking }">
+          {{ isSpeaking ? '\u25A0 ' + $t('game.stop') : '\uD83D\uDD0A ' + $t('game.howToPlay') }}
+        </button>
+        <button class="play-btn" @pointerdown.prevent="$emit('play')">
+          {{ $t('game.play') }}
+        </button>
+      </div>
       <div v-if="highScore > 0" class="high-score">
-        High Score: {{ highScore }}
+        {{ $t('game.highScore', { score: highScore }) }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onUnmounted } from 'vue'
+import { speakGameRules, stopSpeaking } from '@/composables/useSpeech.js'
+
 defineProps({
   fact: { type: String, required: true },
   highScore: { type: Number, default: 0 },
 })
 
 defineEmits(['play'])
+
+const isSpeaking = ref(false)
+
+function speakRules() {
+  if (isSpeaking.value) {
+    stopSpeaking()
+    isSpeaking.value = false
+    return
+  }
+  isSpeaking.value = true
+  speakGameRules(() => {
+    isSpeaking.value = false
+  })
+}
+
+onUnmounted(() => {
+  stopSpeaking()
+})
 </script>
 
 <style scoped>
@@ -76,6 +102,14 @@ defineEmits(['play'])
   color: #ffcc00;
 }
 
+.btn-row {
+  display: flex;
+  gap: 3vmin;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .play-btn {
   display: inline-block;
   font-size: 4.5vmin;
@@ -94,6 +128,30 @@ defineEmits(['play'])
 
 .play-btn:active {
   transform: scale(0.95);
+}
+
+.rules-btn {
+  display: inline-block;
+  font-size: 3vmin;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2vmin;
+  padding: 2vmin 4vmin;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rules-btn:active {
+  transform: scale(0.95);
+}
+
+.rules-btn.speaking {
+  border-color: #ffcc00;
+  color: #ffcc00;
 }
 
 .high-score {
