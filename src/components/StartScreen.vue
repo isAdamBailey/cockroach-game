@@ -19,6 +19,9 @@
         {{ $t('game.highScore', { score: highScore }) }}
       </div>
     </div>
+    <div class="footer">
+      {{ $t('game.madeWith') }} <a href="https://adambailey.io" target="_blank" rel="noopener">Adam Bailey</a>
+    </div>
   </div>
 </template>
 
@@ -159,5 +162,26 @@ onUnmounted(() => {
   font-size: 2.5vmin;
   color: #cba67a;
   font-weight: 600;
+}
+
+.footer {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 8px) + 1.5vmin);
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1.8vmin;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover,
+.footer a:active {
+  color: #f5a623;
 }
 </style>

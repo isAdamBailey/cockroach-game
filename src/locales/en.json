@@ -15,7 +15,8 @@
     "combo": "{count}x Combo!",
     "hisses": "{count}",
     "scoreLabel": "SCORE",
-    "hissesLabel": "HISSES"
+    "hissesLabel": "HISSES",
+    "madeWith": "made with farts by"
   },
   "facts": {
     "label": "Fun Fact:",
