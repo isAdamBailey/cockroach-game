@@ -8,7 +8,7 @@ const app = createApp(App)
 app.use(i18n)
 
 app.use(createGtag({
-  tagId: 'G-XXXXXXXXXX',
+  tagId: 'G-E15R074S87',
 }))
 
 app.mount('#app')
