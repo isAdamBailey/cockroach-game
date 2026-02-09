@@ -1,7 +1,7 @@
 <template>
   <div class="game-board" @pointerdown="handleBoardTap">
     <ScoreDisplay :score="state.score" :combo-count="state.comboCount" :hiss-count="state.hissCount" />
-    <Toilet />
+    <img src="/toilet.png" alt="Toilet" class="toilet-img" draggable="false" />
     <CockroachSprite
       :x="state.cockroachX"
       :y="state.cockroachY"
@@ -19,7 +19,6 @@
 
 <script setup>
 import CockroachSprite from '@/components/CockroachSprite.vue'
-import Toilet from '@/components/Toilet.vue'
 import FartCloud from '@/components/FartCloud.vue'
 import ScoreDisplay from '@/components/ScoreDisplay.vue'
 import { useSound } from '@/composables/useSound.js'
@@ -43,6 +42,20 @@ function handleBoardTap() {
 </script>
 
 <style scoped>
+.toilet-img {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18vmin;
+  height: auto;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.3));
+}
+
 .game-board {
   position: fixed;
   inset: 0;
