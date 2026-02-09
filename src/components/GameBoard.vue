@@ -6,6 +6,7 @@
       :x="state.cockroachX"
       :y="state.cockroachY"
       :is-hissing="state.isHissing"
+      :rotation="state.cockroachRotation"
       @head-tap="handleHiss"
     />
     <FartCloud :visible="state.showFart" />
@@ -31,8 +32,8 @@ const emit = defineEmits(['hiss'])
 
 const { playHiss } = useSound()
 
-function handleHiss() {
-  emit('hiss')
+function handleHiss(direction) {
+  emit('hiss', direction)
   playHiss()
 }
 

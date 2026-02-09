@@ -3,7 +3,7 @@
     class="cockroach-wrapper"
     :style="wrapperStyle"
   >
-    <div class="hit-area head-area" @pointerdown.prevent="onHeadTap"></div>
+    <div class="hit-area head-area" @pointerdown.prevent="onHeadTap($event)"></div>
     <svg
       class="cockroach-svg"
       :class="{ hissing: isHissing }"
@@ -84,6 +84,7 @@ import HissEffect from '@/components/HissEffect.vue'
 const props = defineProps({
   x: { type: Number, required: true },
   y: { type: Number, required: true },
+  rotation: { type: Number, default: 0 },
   isHissing: { type: Boolean, default: false },
 })
 
@@ -92,13 +93,17 @@ const emit = defineEmits(['head-tap'])
 const wrapperStyle = computed(() => ({
   left: `${props.x}%`,
   top: `${props.y}%`,
+  transform: `translate(-50%, -50%) rotate(${props.rotation}deg)`,
 }))
 
-function onHeadTap() {
+function onHeadTap(event) {
   if (navigator.vibrate) {
     navigator.vibrate(30)
   }
-  emit('head-tap')
+  const rect = event.currentTarget.getBoundingClientRect()
+  const tapY = event.clientY - rect.top
+  const direction = tapY < rect.height / 2 ? 'up' : 'down'
+  emit('head-tap', direction)
 }
 </script>
 
@@ -107,8 +112,7 @@ function onHeadTap() {
   position: absolute;
   width: 28vmin;
   height: auto;
-  transform: translate(-50%, -50%);
-  transition: left 0.35s ease-out, top 0.35s ease-out;
+  transition: left 0.35s ease-out, top 0.35s ease-out, transform 0.35s ease-out;
   z-index: 10;
   user-select: none;
   -webkit-user-select: none;

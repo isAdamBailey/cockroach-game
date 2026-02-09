@@ -55,8 +55,8 @@ async function handlePlay() {
   try { gtagEvent('game_start') } catch {}
 }
 
-function handleHiss() {
-  const didHiss = hiss()
+function handleHiss(direction) {
+  const didHiss = hiss(direction)
   if (didHiss) {
     try { gtagEvent('cockroach_hiss', { combo: state.comboCount }) } catch {}
   }
